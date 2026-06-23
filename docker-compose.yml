@@ -1,0 +1,28 @@
+services:
+  uploader:
+    build: .
+    container_name: uploader
+    restart: unless-stopped
+    user: "1001:1001"
+    environment:
+      - DOWNLOADS_DIR=/downloads
+      - GRIMMORY_BOOKS_DIR=/grimmory-books
+      - GRIMMORY_MANGA_DIR=/grimmory-manga
+      - GRIMMORY_COMICS_DIR=/grimmory-comics
+      - GRIMMORY_DROP_DIR=/grimmory-drop
+      - MAX_CONTENT_MB=768
+    volumes:
+      - /srv/grimmory/books:/grimmory-books
+      - /srv/grimmory/manga:/grimmory-manga
+      - /srv/grimmory/comics:/grimmory-comics
+      - /srv/grimmory/bookdrop:/grimmory-drop
+      - /home/ubuntu/Downloads:/downloads
+    expose:
+      - "8088"
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
+    name: searxng-docker_web
